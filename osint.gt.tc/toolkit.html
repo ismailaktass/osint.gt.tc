@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Osintismq Toolkit V1</title>
+  <style>
+    :root {
+      --bg: #020817;
+      --panel: #06101f;
+      --panel-2: #081426;
+      --border: #12304d;
+      --text: #ecf7ff;
+      --muted: #86a6be;
+      --cyan: #22d3ee;
+      --cyan-soft: rgba(34, 211, 238, 0.12);
+      --green: #34d399;
+      --green-soft: rgba(52, 211, 153, 0.12);
+      --orange: #fb923c;
+      --orange-soft: rgba(251, 146, 60, 0.12);
+      --indigo: #818cf8;
+      --indigo-soft: rgba(129, 140, 248, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: Inter, Arial, sans-serif; }
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero {
+      background: linear-gradient(180deg, #071321 0%, #06101f 100%);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #1ec9ff, #4de2c0);
+      color: #02111d;
+      font-size: 28px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.05;
+    }
+
+    .sub {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      background: #0a1930;
+      border: 1px solid var(--border);
+      color: #c7eaff;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+    }
+
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .quick-pill {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      color: #d7f5ff;
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1.2fr auto;
+      gap: 12px;
+      margin-top: 18px;
+      align-items: start;
+    }
+
+    .search {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .search::placeholder { color: #6f90aa; }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tab {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      color: #d4eefb;
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .tab:hover { border-color: #1f8fb4; }
+
+    .tab.active {
+      background: var(--cyan);
+      color: #03131e;
+      border-color: var(--cyan);
+      font-weight: 700;
+    }
+
+    .sections {
+      margin-top: 28px;
+      display: grid;
+      gap: 28px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #6ee7ff;
+    }
+
+    .count {
+      background: #0a1930;
+      border: 1px solid var(--border);
+      color: #d8efff;
+      border-radius: 999px;
+      padding: 6px 11px;
+      font-size: 0.78rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .card {
+      display: block;
+      background: linear-gradient(180deg, rgba(6,16,31,0.98) 0%, rgba(8,24,44,0.98) 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px;
+      transition: 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      min-height: 180px;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(34,211,238,0.12), transparent 35%);
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #22d3ee;
+      background: #08182c;
+      box-shadow: 0 16px 28px rgba(0,0,0,0.22);
+    }
+
+    .card-top {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-top > div:last-child {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--cyan);
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+
+    .desc {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      padding: 5px 9px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .Free { background: var(--green-soft); color: var(--green); }
+    .Paid { background: var(--orange-soft); color: var(--orange); }
+    .Cli { background: var(--indigo-soft); color: var(--indigo); }
+
+    .empty {
+      margin-top: 22px;
+      background: var(--panel);
+      border: 1px dashed var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+
+    .open-btn, .copy-btn {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .open-btn {
+      background: rgba(34, 211, 238, 0.16);
+      color: #a5f3fc;
+    }
+
+    .open-btn:hover {
+      background: rgba(34, 211, 238, 0.24);
+      border-color: #22d3ee;
+    }
+
+    .copy-btn {
+      background: #0a1930;
+      color: #d8efff;
+    }
+
+    .copy-btn:hover {
+      border-color: #22d3ee;
+      color: #ffffff;
+    }
+
+    .footer-note {
+      margin-top: 26px;
+      color: #6f90aa;
+      font-size: 0.86rem;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .search-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .container { padding: 14px; }
+      .hero { padding: 16px; border-radius: 22px; }
+      h1 { font-size: 1.5rem; }
+      .grid { grid-template-columns: 1fr; }
+      .logo { width: 48px; height: 48px; font-size: 24px; }
+      .pill, .quick-pill, .tab { font-size: 0.8rem; }
+      .card-actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <div class="hero-top">
+        <div class="brand">
+          <div class="logo">V1</div>
+          <div>
+            <h1>Osintismq Toolkit V1</h1>
+            <div class="sub">SHAWISMQ · GHOSTINT-TOOLS · FULL EDITION · COMMUNITY EDITION</div>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="pill" id="totalCount">Total : 0</div>
+          <div class="pill" id="visibleCount">Visible : 0</div>
+        </div>
+      </div>
+
+      <div class="quick-links">
+        <div class="quick-pill">🧠 AI Tools</div>
+        <div class="quick-pill">🗺️ Visualization</div>
+        <div class="quick-pill">📚 Resources</div>
+      </div>
+      
+      <div class="search-row">
+        <input id="searchInput" class="search" type="text" placeholder="Search for a tool..." />
+        <div class="filters" id="filters"></div>
+      </div>
+      </div>
+      
+      <div class="sections" id="sections"></div>
+      <div class="footer-note"> By: Shawismq. Click on a card to open the tool.</div>
+      </div>
+      
+      <script>
+        const toolkitRaw = [
+          {
+            category: "Phones",
+            items: [
+              { name: "TrueCaller", url: "https://truecaller.com/", description: "Caller ID & spam detection", tags: ["Free"] },
+              { name: "Epieos Phone", url: "https://tools.epieos.com/phone.php", description: "Phone reverse lookup", tags: ["Free"] },
+              { name: "PhoneInfoga", url: "https://github.com/sundowndev/PhoneInfoga", description: "International phone scanner", tags: ["Free", "Cli"] },
+              { name: "Sync.me", url: "https://sync.me/", description: "Unknown caller identification", tags: ["Free"] },
+              { name: "FreeCarrierLookup", url: "https://Freecarrierlookup.com/", description: "Find carrier of a phone number", tags: ["Free"] },
+              { name: "WhoCalledMe", url: "https://whocalledme.com/", description: "Multi-country reverse phone lookup", tags: ["Free"] },
+              { name: "Phunter", url: "https://github.com/megadose/phunter", description: "Phone number information", tags: ["Free", "Cli"] },
+              { name: "WiGLE", url: "https://wigle.net/", description: "WiFi/GSM network database", tags: ["Free"] },
+              { name: "Bellingcat Phone Number Checker", url: "https://github.com/bellingcat/telegram-phone-number-checker", description: "Check phone numbers linked to Telegram", tags: ["Free", "Cli"] },
+              { name: "Ignorant", url: "https://github.com/megadose/ignorant", description: "Check phone presence on Snapchat / Instagram", tags: ["Free", "Cli"] },
+              { name: "That’s Them", url: "https://thatsthem.com/", description: "Search people and phone numbers", tags: ["Free"] },
+              { name: "ZabaSearch", url: "https://www.zabasearch.com/", description: "Public people search", tags: ["Free"] }
+            ]
+          },
+          {
+            category: "Emails",
+            items: [
+              { name: "Epieos Email", url: "https://tools.epieos.com/email.php", description: "Reverse email — linked accounts", tags: ["Free"] },
+              { name: "VerifyEmailAddress", url: "https://www.verifyemailaddress.org/", description: "Check if email exists", tags: ["Free"] },
+              { name: "HaveIBeenPwned", url: "https://haveibeenpwned.com/", description: "Check data breach exposure", tags: ["Free"] },
+              { name: "Holehe", url: "https://github.com/megadose/holehe", description: "Check email presence across services", tags: ["Free", "Cli"] },
+              { name: "Hunter", url: "https://hunter.io/", description: "Find emails linked to a domain", tags: ["Free", "Paid"] },
+              { name: "EmailRep", url: "https://emailrep.io/", description: "Email reputation check", tags: ["Free"] },
+              { name: "GHunt", url: "https://github.com/mxrch/GHunt", description: "Search public Google account data", tags: ["Free", "Cli"] },
+              { name: "Mailcat", url: "https://github.com/sharsil/mailcat", description: "Find emails via username", tags: ["Free", "Cli"] },
+              { name: "BreachDirectory", url: "https://breachdirectory.org/", description: "Search in leaked databases", tags: ["Free"] },
+              { name: "ScamSearch", url: "https://scamsearch.io/", description: "Scammer database", tags: ["Free"] },
+              { name: "Skymem", url: "https://www.skymem.info/", description: "Find company emails", tags: ["Free"] },
+              { name: "Whoxy", url: "https://www.whoxy.com/", description: "WHOIS and email history", tags: ["Free", "Paid"] },
+              { name: "SimpleLogin", url: "https://simplelogin.io/", description: "Hide your email address", tags: ["Free"] },
+              { name: "Email-Format", url: "http://email-format.com/", description: "Company email formats", tags: ["Free"] },
+              { name: "Apollo", url: "https://www.apollo.io/", description: "B2B contact and email prospecting", tags: ["Free", "Paid"] },
+              { name: "Snov.io", url: "https://snov.io/email-finder", description: "Email finder and verifier", tags: ["Free", "Paid"] },
+              { name: "HaveIBeenZuckered", url: "https://www.haveibeenzuckered.com/", description: "Search Facebook data leaks", tags: ["Free"] }
+            ]
+          },
+          {
+            category: "Usernames",
+            items: [
+              { name: "Sherlock", url: "https://github.com/sherlock-project/sherlock", description: "Search usernames across sites", tags: ["Free", "Cli"] },
+              { name: "Maigret", url: "https://github.com/soxoj/maigret", description: "Discover linked accounts", tags: ["Free", "Cli"] },
+              { name: "WhatsMyName", url: "https://whatsmyname.app/", description: "Check username presence", tags: ["Free"] },
+              { name: "NameCheckup", url: "https://namecheckup.com/", description: "Search and check username availability", tags: ["Free"] },
+              { name: "IDCrawl", url: "https://www.idcrawl.com/username", description: "Public identity aggregation", tags: ["Free"] },
+              { name: "AnalyzeID", url: "https://analyzeid.com/", description: "Username and identity analysis", tags: ["Free"] },
+              { name: "PeekYou", url: "https://www.peekyou.com/", description: "Search public profiles", tags: ["Free"] },
+              { name: "User Searcher", url: "https://www.user-searcher.com/", description: "Find usernames across platforms", tags: ["Free"] },
+              { name: "Namechk", url: "https://namechk.com/", description: "Username availability checker", tags: ["Free"] }
+            ]
+          },
+          {
+            category: "Domains & DNS",
+            items: [
+              { name: "crt.sh", url: "https://crt.sh/", description: "Certificates & subdomains", tags: ["Free"] },
+              { name: "DNSDumpster", url: "https://dnsdumpster.com/", description: "DNS mapping", tags: ["Free"] },
+              { name: "SecurityTrails", url: "https://securitytrails.com/dns-trails", description: "DNS history & subdomains", tags: ["Free", "Paid"] },
+              { name: "Who.is", url: "https://who.is/", description: "Domain WHOIS lookup", tags: ["Free"] },
+              { name: "URLScan", url: "https://urlscan.io/", description: "URL and resource analysis", tags: ["Free"] },
+              { name: "Shodan", url: "https://www.shodan.io/", description: "Exposed services and banners", tags: ["Free", "Paid"] },
+              { name: "Censys", url: "https://search.censys.io/", description: "Search hosts and certificates", tags: ["Free"] },
+              { name: "BuiltWith", url: "http://builtwith.com/", description: "Technologies used by a website", tags: ["Free"] },
+              { name: "Robtex", url: "https://www.robtex.com/", description: "DNS and network view", tags: ["Free"] },
+              { name: "MXToolbox", url: "https://mxtoolbox.com/", description: "DNS, MX, and email diagnostics", tags: ["Free"] },
+              { name: "DomainDossier", url: "http://centralops.net/co/DomainDossier.aspx", description: "WHOIS, DNS, and routing", tags: ["Free"] },
+              { name: "CentralOps", url: "http://centralops.net/", description: "Network and domain tools", tags: ["Free"] },
+              { name: "ICANN Lookup", url: "https://lookup.icann.org/en/lookup", description: "WHOIS via ICANN", tags: ["Free"] },
+              { name: "BGPView", url: "https://bgpview.io/", description: "ASN and BGP routing", tags: ["Free"] },
+              { name: "BGP.Tools", url: "https://bgp.tools/", description: "Advanced BGP exploration", tags: ["Free"] },
+              { name: "SubdomainRadar", url: "https://subdomainradar.io/", description: "Subdomain discovery", tags: ["Free", "Paid"] },
+              { name: "FullHunt", url: "https://fullhunt.io/", description: "Attack surface discovery", tags: ["Free", "Paid"] },
+              { name: "BeVigil", url: "https://bevigil.com/search", description: "Mobile assets, domains, and leaks", tags: ["Free"] },
+              { name: "Netlas", url: "https://app.netlas.io/", description: "Exposed services indexing", tags: ["Free"] },
+              { name: "FOFA", url: "https://en.fofa.info/", description: "Internet asset search engine", tags: ["Free", "Paid"] },
+              { name: "Criminal IP", url: "https://www.criminalip.io/", description: "IP and service search", tags: ["Free", "Paid"] },
+              { name: "Web Check", url: "https://web-check.as93.net/", description: "Full website analysis", tags: ["Free"] },
+              { name: "NerdyData", url: "https://nerdydata.com/", description: "Search in website source code", tags: ["Free", "Paid"] },
+              { name: "PublicWWW", url: "https://publicwww.com/", description: "Search web technologies", tags: ["Free"] },
+              { name: "DNSViz", url: "http://dnsviz.net/", description: "DNSSEC visualization and analysis", tags: ["Free"] },
+              { name: "DNSSEC Debugger", url: "http://dnssec-debugger.verisignlabs.com/", description: "DNSSEC debugging", tags: ["Free"] },
+              { name: "Validin", url: "https://app.validin.com/", description: "DNS intelligence and pivots", tags: ["Free", "Paid"] },
+              { name: "Whois ARIN", url: "https://whois.arin.net/", description: "IP and operator WHOIS", tags: ["Free"] },
+              { name: "Radar Cloudflare", url: "https://radar.cloudflare.com/", description: "Internet trends and ASN data", tags: ["Free"] }
+              ]
+      },
+      {
+      category: "Breaches & Leaks",
+      items: [
+        { name: "DeHashed", url: "https://dehashed.com/", description: "Search in data breaches", tags: ["Paid"] },
+        { name: "LeakCheck", url: "https://leakcheck.io/", description: "Email and breach verification", tags: ["Free", "Paid"] },
+        { name: "IntelX Tools", url: "https://intelx.io/tools", description: "Multi-source search and traces", tags: ["Free", "Paid"] },
+        { name: "Doxbin", url: "https://doxbin.net/", description: "Public leak aggregation", tags: ["Free"] },
+        { name: "JustPaste.it", url: "https://justpaste.it/", description: "Search public pastes", tags: ["Free"] },
+        { name: "Pastebin.pl", url: "https://pastebin.pl/", description: "Public text pastes", tags: ["Free"] },
+        { name: "Tor.link Paste", url: "https://tor.link/paste/new", description: "Paste service on Tor", tags: ["Free"] },
+        { name: "OSINT.rocks", url: "https://osint.rocks/", description: "OSINT resources and links", tags: ["Free"] },
+        { name: "Dark Web Informer", url: "https://darkwebinformer.com/threat-actor-database/", description: "Threat actor database and dark web monitoring", tags: ["Free"] },
+        { name: "Threat Actor Database", url: "https://malpedia.caad.fkie.fraunhofer.de/actors", description: "Catalog of malicious actors", tags: ["Free"] },
+        { name: "GrayHatWarfare", url: "https://grayhatwarfare.com/", description: "Search exposed files", tags: ["Free", "Paid"] }
+      ]
+    },
+    {
+      category: "Metadata",
+      items: [
+        { name: "Exif.regex.info", url: "http://exif.regex.info/", description: "Read image EXIF data", tags: ["Free"] },
+        { name: "Jimpl", url: "https://jimpl.com/", description: "Extract image metadata", tags: ["Free"] },
+        { name: "FOCA", url: "https://github.com/ElevenPaths/FOCA", description: "Document metadata analysis", tags: ["Free"] },
+        { name: "Pic2Map", url: "https://www.pic2map.com/", description: "GPS data from photos", tags: ["Free"] },
+        { name: "Exif Editor", url: "https://exifeditor.io/", description: "View and edit EXIF data", tags: ["Free"] },
+        { name: "MattW YouTube Metadata", url: "https://mattw.io/youtube-metadata/", description: "YouTube metadata viewer", tags: ["Free"] },
+        { name: "Photo Forensics", url: "https://29a.ch/photo-forensics/", description: "Image manipulation detection", tags: ["Free"] }
+      ]
+    },
+    {
+      category: "Search Engines",
+      items: [
+        { name: "Google", url: "https://www.google.com/", description: "General web search", tags: ["Free"] },
+        { name: "Bing", url: "https://www.bing.com/", description: "Useful alternative for pivots", tags: ["Free"] },
+        { name: "Yandex", url: "https://yandex.com/", description: "Web & image search", tags: ["Free"] },
+        { name: "DuckDuckGo", url: "https://duckduckgo.com/", description: "Privacy-focused search", tags: ["Free"] },
+        { name: "Yahoo", url: "https://www.yahoo.com/", description: "Alternative web search", tags: ["Free"] },
+        { name: "Mojeek", url: "https://www.mojeek.com/", description: "Independent search engine", tags: ["Free"] },
+        { name: "Kagi", url: "https://kagi.com/", description: "Premium search with advanced filtering", tags: ["Paid"] },
+        { name: "Swisscows", url: "https://swisscows.com/", description: "Privacy-oriented search engine", tags: ["Free"] },
+        { name: "Millionshort", url: "https://millionshort.com/", description: "Removes top results to find alternatives", tags: ["Free"] },
+        { name: "Google Hacking DB", url: "https://www.exploit-db.com/google-hacking-database", description: "Google dorks database", tags: ["Free"] },
+        { name: "DorkGenius", url: "https://dorkgenius.com/", description: "Dork generator", tags: ["Free"] },
+        { name: "DorkGPT", url: "https://www.dorkgpt.com/", description: "AI-assisted dorking", tags: ["Free"] },
+        { name: "Google Trends", url: "https://www.google.com/trends", description: "Search trends", tags: ["Free"] },
+        { name: "Google News", url: "https://news.google.com/", description: "News search", tags: ["Free"] },
+        { name: "Scholar Google", url: "https://scholar.google.com/", description: "Academic search", tags: ["Free"] },
+        { name: "Biznar", url: "http://biznar.com/", description: "Business and economic search", tags: ["Free"] },
+        { name: "Boardreader", url: "http://boardreader.com/", description: "Forums and discussions", tags: ["Free"] },
+        { name: "Carrot2", url: "https://search.carrot2.org/", description: "Web result clustering", tags: ["Free"] },
+        { name: "2lingual", url: "http://2lingual.com/", description: "Bilingual Google search", tags: ["Free"] },
+        { name: "IsearchFrom", url: "https://isearchfrom.com/", description: "Simulate searches from a country", tags: ["Free"] },
+        { name: "Qwant", url: "https://www.qwant.com/", description: "European search engine", tags: ["Free"] },
+        { name: "Brave Search", url: "https://search.brave.com/", description: "Private Brave search", tags: ["Free"] },
+        { name: "AOL", url: "https://search.aol.com/", description: "Alternative search engine", tags: ["Free"] },
+        { name: "Ask", url: "https://www.ask.com/", description: "Legacy search engine", tags: ["Free"] },
+        { name: "Baidu", url: "https://www.baidu.com/", description: "Chinese search engine", tags: ["Free"] },
+        { name: "Colossus", url: "https://search.colossus.com/", description: "People search and investigation", tags: ["Free"] },
+        { name: "Newspaper Archive", url: "https://newspaperarchive.com/", description: "Historical newspapers and archives", tags: ["Paid"] },
+        { name: "Internet Archive", url: "https://archive.org/", description: "Archives, books, and media", tags: ["Free"] },
+        { name: "Academic Microsoft", url: "http://academic.research.microsoft.com/", description: "Legacy academic search", tags: ["Free"] },
+        { name: "Academia", url: "http://academia.edu/", description: "Research papers and documents", tags: ["Free"] },
+        { name: "CiteseerX", url: "http://citeseer.ist.psu.edu/", description: "Academic articles", tags: ["Free"] },
+        { name: "Global Factiva", url: "https://global.factiva.com/", description: "Professional news and data", tags: ["Paid"] },
+        { name: "THW", url: "https://thehiddenwiki.org/", description: "Dark web directory", tags: ["Free"] },
+        { name: "Ahmia", url: "https://ahmia.fi/", description: "Tor dark web search", tags: ["Free"] }
+      ]
+    },
+    {
+      category: "Reverse Image",
+      items: [
+        { name: "Google Lens", url: "https://lens.google.com/", description: "Visual search", tags: ["Free"] },
+        { name: "TinEye", url: "https://tineye.com/", description: "Find similar images", tags: ["Free"] },
+        { name: "ImgOps", url: "https://imgops.com/", description: "Image analysis hub", tags: ["Free"] },
+        { name: "FaceCheck", url: "https://facecheck.id/", description: "Web facial search", tags: ["Paid"] },
+        { name: "PimEyes", url: "https://pimeyes.com/", description: "Advanced facial recognition", tags: ["Paid"] },
+        { name: "Search4Faces", url: "https://search4faces.com/", description: "Facial search on social media", tags: ["Free"] },
+        { name: "ImageRaider", url: "https://www.imageraider.com/", description: "Track reused images", tags: ["Free"] },
+        { name: "Images Google", url: "https://images.google.com/", description: "Standard image search", tags: ["Free"] },
+        { name: "RevEye", url: "https://chromewebstore.google.com/", description: "Reverse image extension", tags: ["Free"] },
+        { name: "Mapillary", url: "https://www.mapillary.com/app/", description: "Street-level imagery", tags: ["Free"] },
+        { name: "Filmot", url: "https://filmot.com/", description: "Search YouTube subtitles", tags: ["Free"] }
+      ]
+    },
+    {
+      category: "Social Media",
+      items: [
+        { name: "Social Searcher", url: "https://www.social-searcher.com/", description: "Social media search", tags: ["Free"] },
+        { name: "Foller.me", url: "https://foller.me/", description: "X/Twitter account analysis", tags: ["Free"] },
+        { name: "InVID", url: "https://www.invid-project.eu/tools-and-services/invid-verification-plugin/", description: "Video & image verification", tags: ["Free"] },
+        { name: "Bellingcat Toolkit", url: "http://bit.ly/bcattools", description: "Verification tools", tags: ["Free"] },
+        { name: "Twitter", url: "https://twitter.com/", description: "X/Twitter platform", tags: ["Free"] },
+        { name: "Instagram", url: "https://www.instagram.com/", description: "Instagram platform", tags: ["Free"] },
+        { name: "Facebook", url: "https://www.facebook.com/", description: "Facebook platform", tags: ["Free"] },
+        { name: "LinkedIn", url: "https://www.linkedin.com/", description: "Profiles and companies", tags: ["Free"] },
+        { name: "Bluesky", url: "https://bsky.app/", description: "Open social network", tags: ["Free"] },
+        { name: "Threads", url: "https://www.threads.net/", description: "Threads platform", tags: ["Free"] },
+        { name: "VK", url: "https://vk.com/", description: "VK social network", tags: ["Free"] },
+        { name: "Tumblr", url: "https://www.tumblr.com/", description: "Blogs and posts", tags: ["Free"] },
+        { name: "Reddit", url: "https://www.reddit.com/", description: "Community forums", tags: ["Free"] },
+        { name: "Reddit Comment Search", url: "https://redditcommentsearch.com/", description: "Search Reddit comments", tags: ["Free"] },
+        { name: "Iconosquare", url: "http://iconosquare.com/", description: "Instagram analytics", tags: ["Paid"] },
+        { name: "Hootsuite", url: "http://hootsuite.com/", description: "Social media scheduling & monitoring", tags: ["Paid"] },
+        { name: "BuzzSumo", url: "http://buzzsumo.com/", description: "Content and influencers", tags: ["Paid"] },
+        { name: "Brandwatch", url: "https://www.brandwatch.com/", description: "Social listening", tags: ["Paid"] },
+        { name: "TwitterAudit", url: "https://www.twitteraudit.com/", description: "X/Twitter audience audit", tags: ["Free"] },
+        { name: "AnalyzeID", url: "https://analyzeid.com/", description: "Social account analysis", tags: ["Free"] }
+      ]
+    },
+    {
+      category: "Geolocation",
+      items: [
+        { name: "Google Maps", url: "https://www.google.com/maps", description: "Mapping and navigation", tags: ["Free"] },
+        { name: "Google Earth", url: "https://earth.google.com/", description: "Satellite and 3D view", tags: ["Free"] },
+        { name: "GeoHints", url: "https://geohints.com/", description: "Geolocation clues", tags: ["Free"] },
+        { name: "OpenStreetMap", url: "https://www.openstreetmap.org/", description: "Collaborative map", tags: ["Free"] },
+        { name: "BatchGeo", url: "http://batchgeo.com/", description: "Map address lists", tags: ["Free"] },
+        { name: "Google Earth Explorer", url: "https://earthexplorer.usgs.gov/", description: "USGS satellite imagery", tags: ["Free"] },
+        { name: "Satellites.pro", url: "https://satellites.pro/", description: "Satellite imagery and altitude", tags: ["Free"] },
+        { name: "OpenTopoMap", url: "https://opentopomap.org/", description: "Topographic maps", tags: ["Free"] },
+        { name: "MapChart", url: "https://mapchart.net/", description: "Simple thematic maps", tags: ["Free"] },
+        { name: "Mapbox", url: "https://www.mapbox.com/", description: "Interactive maps", tags: ["Free", "Paid"] },
+        { name: "Zoom Earth", url: "https://zoom.earth/", description: "Real-time weather & satellite", tags: ["Free"] },
+        { name: "Windy", url: "https://www.windy.com/", description: "Wind and weather maps", tags: ["Free"] },
+        { name: "SunCalc", url: "https://www.suncalc.org/", description: "Sun position and shadows", tags: ["Free"] },
+        { name: "DailyEarth", url: "http://dailyearth.com/", description: "Geospatial data and maps", tags: ["Free"] },
+        { name: "IP2Geolocation", url: "https://ip2geolocation.com/", description: "IP geolocation", tags: ["Free"] },
+        { name: "DB-IP", url: "https://db-ip.com/", description: "IP and geolocation", tags: ["Free"] },
+        { name: "Dedigger", url: "https://www.dedigger.com/", description: "Search GPS coordinates", tags: ["Free"] },
+        { name: "GeoGig", url: "http://geogig.org/", description: "Geospatial versioning", tags: ["Free"] },
+        { name: "EarthExplorer USGS", url: "https://earthexplorer.usgs.gov/", description: "Satellite archives", tags: ["Free"] },
+        { name: "Inspire Geoportal", url: "http://inspire-geoportal.ec.europa.eu/", description: "EU geographic data", tags: ["Free"] },
+        { name: "Zeemaps", url: "https://www.zeemaps.com/", description: "Create custom maps", tags: ["Free"] }
+        ]
+      },
+      {
+      category: "Web Archives",
+      items: [
+        { name: "Wayback Machine", url: "https://web.archive.org/", description: "Web archives since 1996", tags: ["Free"] },
+        { name: "Archive.ph", url: "https://archive.ph/", description: "Instant snapshots", tags: ["Free"] },
+        { name: "CachedView", url: "https://cachedview.com/", description: "Cached pages", tags: ["Free"] },
+        { name: "OldWeb.today", url: "https://oldweb.today/", description: "Legacy web browser experience", tags: ["Free"] },
+        { name: "Common Crawl", url: "https://commoncrawl.org/", description: "Massive web corpus", tags: ["Free"] },
+        { name: "Archive.org", url: "https://archive.org/", description: "Internet and media archives", tags: ["Free"] },
+        { name: "National Archives UK", url: "https://www.nationalarchives.gov.uk/", description: "UK national archives", tags: ["Free"] },
+        { name: "DocumentCloud", url: "https://www.documentcloud.org/", description: "Search and annotate documents", tags: ["Free"] },
+        { name: "Archive.is", url: "http://archive.is/", description: "Web archiving and snapshots", tags: ["Free"] }
+      ]
+    },
+    {
+      category: "Companies",
+      items: [
+        { name: "OpenCorporates", url: "https://opencorporates.com/", description: "Company registries", tags: ["Free"] },
+        { name: "OCCRP Aleph", url: "https://aleph.occrp.org/", description: "Search documents and entities", tags: ["Free"] },
+        { name: "Offshore Leaks", url: "https://offshoreleaks.icij.org/", description: "Offshore structures", tags: ["Free"] },
+        { name: "Crunchbase", url: "https://www.crunchbase.com/", description: "Companies & startups", tags: ["Free", "Paid"] },
+        { name: "OpenSanctions", url: "https://www.opensanctions.org/search/", description: "Sanctions and entities", tags: ["Free"] },
+        { name: "OpenOwnership", url: "https://register.openownership.org/", description: "Beneficial ownership data", tags: ["Free"] },
+        { name: "Corporation Wiki", url: "https://www.corporationwiki.com/", description: "Companies and executives", tags: ["Free"] },
+        { name: "Companies House", url: "https://www.gov.uk/government/organisations/companies-house", description: "UK company registry", tags: ["Free"] },
+        { name: "Comparably", url: "https://www.comparably.com/", description: "Company culture and salary insights", tags: ["Free"] },
+        { name: "Glassdoor", url: "https://www.glassdoor.com/", description: "Employee reviews", tags: ["Free"] },
+        { name: "The Org", url: "https://theorg.com/", description: "Company org charts", tags: ["Free"] },
+        { name: "NorthData", url: "https://www.northdata.com/", description: "Company data", tags: ["Free", "Paid"] },
+        { name: "YouControl", url: "https://youcontrol.com.ua/en/", description: "Company due diligence", tags: ["Free", "Paid"] },
+        { name: "GlobalEdge", url: "http://globaledge.msu.edu/", description: "Business and country resources", tags: ["Free"] },
+        { name: "DIBS GlobalEdge", url: "http://globaledge.msu.edu/tools-and-data/dibs", description: "International business data", tags: ["Free"] },
+        { name: "LittleSis", url: "https://littlesis.org/", description: "Power, influence, and networks", tags: ["Free"] },
+        { name: "Xing", url: "https://www.xing.com/", description: "European professional profiles", tags: ["Free"] }
+      ]
+    },
+    {
+      category: "Code & Repositories",
+      items: [
+        { name: "GitHub", url: "https://github.com/", description: "Code, profiles, and repositories", tags: ["Free"] },
+        { name: "GitHub Advanced Search", url: "https://github.com/search/advanced", description: "Advanced GitHub search", tags: ["Free"] },
+        { name: "Grep.app", url: "https://grep.app/", description: "Search open source code", tags: ["Free"] },
+        { name: "SearchCode", url: "https://searchcode.com/", description: "Search code snippets", tags: ["Free"] },
+        { name: "Sourcegraph", url: "https://sourcegraph.com/search", description: "Universal code navigation", tags: ["Free"] },
+        { name: "GitLab", url: "https://gitlab.com/explore", description: "Public GitLab repositories", tags: ["Free"] },
+        { name: "Gist", url: "https://gist.github.com/", description: "Public GitHub snippets", tags: ["Free"] },
+        { name: "Codefinder", url: "http://codefinder.org/", description: "Search in code", tags: ["Free"] },
+        { name: "Photon", url: "https://github.com/s0md3v/Photon", description: "OSINT web crawler", tags: ["Free", "Cli"] },
+        { name: "SpiderFoot", url: "https://github.com/smicallef/spiderfoot", description: "OSINT automation", tags: ["Free", "Cli"] },
+        { name: "theHarvester", url: "https://github.com/laramies/theHarvester", description: "Emails, subdomains, and names", tags: ["Free", "Cli"] },
+        { name: "Amass", url: "https://github.com/owasp-amass/amass", description: "Infrastructure enumeration", tags: ["Free", "Cli"] },
+        { name: "SpiderFoot site", url: "https://www.spiderfoot.net/", description: "SpiderFoot platform", tags: ["Free"] },
+        { name: "Maltego", url: "https://www.maltego.com/", description: "Graph-based investigation and pivots", tags: ["Free", "Paid"] },
+        { name: "Graphystories", url: "http://app.graphystories.com/", description: "Graph visualization", tags: ["Free"] },
+        { name: "Palladio", url: "http://hdlab.stanford.edu/palladio", description: "Data visualization", tags: ["Free"] }
+      ]
+    },
+    {
+      category: "Transport & Vehicles",
+      items: [
+        { name: "FlightRadar24", url: "https://www.flightradar24.com/", description: "Real-time flight tracking", tags: ["Free", "Paid"] },
+        { name: "FlightAware", url: "https://www.flightaware.com/", description: "Air traffic and history", tags: ["Free"] },
+        { name: "MarineTraffic", url: "https://www.marinetraffic.com/", description: "AIS vessel tracking", tags: ["Free", "Paid"] },
+        { name: "VesselFinder", url: "https://www.vesselfinder.com/", description: "Ship tracking", tags: ["Free"] },
+        { name: "OpenSky Network", url: "https://opensky-network.org/", description: "Open-source ADS-B data", tags: ["Free"] },
+        { name: "ADSB Exchange", url: "https://globe.adsbexchange.com/", description: "Unfiltered air traffic", tags: ["Free"] },
+        { name: "FaxVIN", url: "https://www.faxvin.com/", description: "VIN lookup", tags: ["Free"] }
+      ]
+    },
+    {
+      category: "Monitoring & Threat Intel",
+      items: [
+        { name: "Visualping", url: "https://visualping.io/", description: "Page change alerts", tags: ["Free", "Paid"] },
+        { name: "FetchRSS", url: "http://fetchrss.com/", description: "Create RSS feeds from pages", tags: ["Free"] },
+        { name: "Ctrlq RSS", url: "http://ctrlq.org/rss", description: "RSS generator", tags: ["Free"] },
+        { name: "Feed Exileed", url: "http://feed.exileed.com/", description: "RSS aggregation", tags: ["Free"] },
+        { name: "Feed Janicek", url: "http://feed.janicek.co/", description: "RSS monitoring", tags: ["Free"] },
+        { name: "Pulsedive", url: "https://pulsedive.com/", description: "Threat intelligence and IOCs", tags: ["Free"] },
+        { name: "GreyNoise", url: "https://greynoise.io/", description: "Internet noise and scanners", tags: ["Free", "Paid"] },
+        { name: "GreyNoise Viz", url: "https://viz.greynoise.io/", description: "GreyNoise visualization", tags: ["Free"] },
+        { name: "AbuseIPDB", url: "https://www.abuseipdb.com/", description: "IP reputation", tags: ["Free"] },
+        { name: "Talos Reputation", url: "https://talosintelligence.com/reputation_center", description: "Domain/IP reputation", tags: ["Free"] },
+        { name: "OTX AlienVault", url: "https://otx.alienvault.com/", description: "Community threat intelligence", tags: ["Free"] },
+        { name: "URLHaus", url: "https://urlhaus.abuse.ch/", description: "Malicious URLs", tags: ["Free"] },
+        { name: "Bazaar", url: "https://bazaar.abuse.ch/browse/", description: "Malware samples", tags: ["Free"] },
+        { name: "YARAify", url: "https://yaraify.abuse.ch/", description: "YARA and malware search", tags: ["Free"] },
+        { name: "Hybrid Analysis", url: "https://www.hybrid-analysis.com/", description: "Malware sandbox", tags: ["Free"] },
+        { name: "MetaDefender", url: "https://metadefender.com/", description: "File scanning and reputation", tags: ["Free"] },
+        { name: "Malpedia Actors", url: "https://malpedia.caad.fkie.fraunhofer.de/actors", description: "Malware actor database", tags: ["Free"] },
+        { name: "LiveUAmap", url: "https://liveuamap.com/", description: "Live conflict and event map", tags: ["Free"] },
+        { name: "Imperva Attack Map", url: "https://www.imperva.com/cyber-threat-attack-map/", description: "Cyber attack map", tags: ["Free"] },
+        { name: "ThreatMap", url: "https://threatmap.checkpoint.com/", description: "Global cyber threat map", tags: ["Free"] }
+      ]
+    },
+    {
+      category: "Documents & Data",
+      items: [
+        { name: "DocumentCloud", url: "https://www.documentcloud.org/", description: "Explore and annotate documents", tags: ["Free"] },
+        { name: "FilePursuit", url: "https://filepursuit.com/", description: "Search public files", tags: ["Free"] },
+        { name: "Data UN", url: "http://data.un.org/", description: "UN data", tags: ["Free"] },
+        { name: "World Bank Data", url: "http://data.worldbank.org/", description: "World Bank data", tags: ["Free"] },
+        { name: "AidData", url: "http://aiddata.org/", description: "Aid and development data", tags: ["Free"] },
+        { name: "Comtrade", url: "http://comtrade.un.org/", description: "International trade data", tags: ["Free"] },
+        { name: "Eurostat", url: "http://ec.europa.eu/eurostat", description: "EU statistics", tags: ["Free"] },
+        { name: "CIA World Factbook", url: "https://www.cia.gov/the-world-factbook/", description: "Country profiles", tags: ["Free"] },
+        { name: "Judy Records", url: "https://www.judyrecords.com/", description: "Court record archives", tags: ["Free"] },
+        { name: "CourtListener", url: "https://www.courtlistener.com/recap/", description: "Legal cases and decisions", tags: ["Free"] },
+        { name: "UniCourt", url: "https://unicourt.com/", description: "Court records", tags: ["Free", "Paid"] },
+        { name: "VoterRecords", url: "https://voterrecords.com/", description: "US public voter data", tags: ["Free"] },
+        { name: "FamilySearch", url: "https://familysearch.org/", description: "Genealogy and archives", tags: ["Free"] },
+        { name: "FamilyTreeNow", url: "https://familytreenow.com/", description: "Family and address search", tags: ["Free"] },
+        { name: "Academia", url: "http://academia.edu/", description: "Academic documents", tags: ["Free"] },
+        { name: "Wiley", url: "http://eu.wiley.com/", description: "Scientific publications", tags: ["Paid"] },
+        { name: "JournalSeek", url: "http://journalseek.net/", description: "Journal directory", tags: ["Free"] }
+      ]
+    },
+    {
+      category: "Visualization & DataViz",
+      items: [
+        { name: "Datawrapper", url: "https://datawrapper.de/", description: "Charts and maps", tags: ["Free"] },
+        { name: "Canva", url: "https://www.canva.com/", description: "Visuals and presentations", tags: ["Free"] },
+        { name: "Create.ly", url: "http://creately.com/", description: "Diagrams and flowcharts", tags: ["Free"] },
+        { name: "ColorBrewer", url: "http://colorbrewer2.org/", description: "Color palettes for maps", tags: ["Free"] },
+        { name: "Circos", url: "http://circos.ca/", description: "Complex circular visualizations", tags: ["Free"] },
+        { name: "D3.js", url: "https://d3js.org/", description: "Advanced data visualization", tags: ["Free", "Cli"] },
+        { name: "Dygraphs", url: "http://dygraphs.com/", description: "JavaScript charts", tags: ["Free"] },
+        { name: "JPGraph", url: "http://jpgraph.net/", description: "Graph library", tags: ["Free"] },
+        { name: "Visual.ly", url: "http://create.visual.ly/", description: "Infographic creation", tags: ["Free"] },
+        { name: "Raphael", url: "http://dmitrybaranovskiy.github.io/raphael", description: "JS vector graphics", tags: ["Free"] },
+        { name: "Charts Hohli", url: "http://charts.hohli.com/", description: "Simple charts", tags: ["Free"] },
+        { name: "Dataviz Catalogue", url: "http://datavizcatalogue.com/", description: "Choose chart types", tags: ["Free"] }
+      ]
+    },
+    {
+      category: "Telegram OSINT",
+      items: [
+        { name: "The OSINT Toolbox", url: "https://www.the-osint-toolbox.com/index.html", description: "Main Telegram OSINT page", tags: ["Free"] },
+        { name: "CQCore Telegram Fundamentals", url: "https://cqcore.uk/telegram-fundamentals/", description: "Telegram fundamentals guide", tags: ["Free"] },
+        { name: "CQCore VM Part 1", url: "https://www.cqcore.uk/telegram-osint-vm-part-1/", description: "Telegram OSINT VM part 1", tags: ["Free"] },
+        { name: "CQCore VM Part 2", url: "https://www.cqcore.uk/telegram-osint-vm-part-2/", description: "Telegram OSINT VM part 2", tags: ["Free"] },
+        { name: "CQCore VM Part 3", url: "https://www.cqcore.uk/telegram-osint-vm-part-3/", description: "Telegram OSINT VM part 3", tags: ["Free"] },
+        { name: "Hatless1der Telegram Basics", url: "https://hatless1der.com/telegram-osint-basics-5-tips-anyone-can-do-right-now/", description: "5 Telegram OSINT tips", tags: ["Free"] },
+        { name: "Hatless1der From the Outside", url: "https://hatless1der.com/telegram-osint-from-the-outside/", description: "External Telegram investigation", tags: ["Free"] },
+        { name: "OSINT.me Telegram Guide", url: "https://www.osintme.com/index.php/2022/10/18/the-osint-me-ultimate-guide-to-telegram-osint-and-privacy/", description: "Telegram & privacy guide", tags: ["Free"] },
+        { name: "GIJN Telegram", url: "https://gijn.org/2022/05/19/how-journalists-can-investigate-on-telegram/", description: "Journalistic investigation on Telegram", tags: ["Free"] },
+        { name: "OSINT Team Telegram Security", url: "https://osintteam.blog/telegram-security-best-practices-1b33eb10be05", description: "Telegram security best practices", tags: ["Free"] },
+        { name: "OSINT Combine Telegram Chats", url: "https://www.osintcombine.com/post/telegram-chats-media", description: "Telegram chats and media", tags: ["Free"] },
+        { name: "FabledOwl Telegram API", url: "https://fabledowlblog.wordpress.com/2017/07/10/telegram-api-for-osint-part-1-users/", description: "Telegram API for OSINT", tags: ["Free"] },
+        { name: "ProjetFox Geogramint", url: "https://projetfox.com/en/2022/08/geogramint-an-osint-geolocalization-tool-for-telegram/", description: "Telegram geolocation tool", tags: ["Free"] },
+        { name: "TricksFly Telegram Tips", url: "https://www.tricksfly.net/social/telegram/", description: "Telegram tips", tags: ["Free"] },
+        { name: "Awesome Telegram OSINT", url: "https://github.com/ItIsMeCall911/Awesome-Telegram-OSINT", description: "Telegram OSINT GitHub collection", tags: ["Free", "Cli"] },
+        { name: "Geogramint", url: "https://github.com/Alb-310/Geogramint", description: "Telegram nearby geolocation", tags: ["Free", "Cli"] },
+        { name: "Telegram Nearby Map", url: "https://github.com/tejado/telegram-nearby-map", description: "Telegram nearby map", tags: ["Free", "Cli"] },
+        { name: "Telepathy", url: "https://github.com/jordanwildon/Telepathy", description: "Telegram investigation tool", tags: ["Free", "Cli"] },
+        { name: "Telerecon", url: "https://github.com/sockysec/Telerecon", description: "Telegram reconnaissance", tags: ["Free", "Cli"] },
+        { name: "Telegram Tracker", url: "https://github.com/estebanpdl/telegram-tracker", description: "Telegram tracking", tags: ["Free", "Cli"] },
+        { name: "Telegram Scraper", url: "https://github.com/unnohwn/telegram-scraper", description: "Telegram scraping", tags: ["Free", "Cli"] },
+        { name: "Telegram Message Analyzer", url: "https://github.com/zqtay/Telegram-Message-Analyzer", description: "Telegram message analysis", tags: ["Free", "Cli"] },
+        { name: "Telegram Similar Channels", url: "https://github.com/SocialLinks-IO/telegram-similar-channels", description: "Similar Telegram channels", tags: ["Free", "Cli"] },
+        { name: "TeleTracker", url: "https://github.com/tsale/TeleTracker", description: "Telegram tracking tool", tags: ["Free", "Cli"] },
+        { name: "CCTV Geo-monitoring", url: "https://github.com/IvanGlinkin/CCTV", description: "OSINT geo-monitoring", tags: ["Free", "Cli"] },
+        { name: "Telegram Transparency", url: "https://github.com/Te-k/telegram-transparency", description: "Telegram transparency data", tags: ["Free", "Cli"] },
+        { name: "Save Telegram Chat History", url: "https://github.com/pigpagnet/save-telegram-chat-history", description: "Save chat history", tags: ["Free", "Cli"] },
+        { name: "TGeocoder", url: "https://github.com/MJCruickshank/TGeocoder", description: "Telegram geocoding", tags: ["Free", "Cli"] },
+        { name: "TOSINT", url: "https://github.com/drego85/tosint", description: "Telegram OSINT tools", tags: ["Free", "Cli"] },
+        { name: "TelegramOSINTPolo", url: "https://github.com/Ironship/TelegramOSINTPolo", description: "Telegram OSINT project", tags: ["Free", "Cli"] },
+        { name: "TelegramDB", url: "https://www.telegramdb.org/search", description: "Advanced Telegram search", tags: ["Free"] },
+        { name: "TelegramChannels.me", url: "https://telegramchannels.me/", description: "Telegram channel directory", tags: ["Free"] },
+        { name: "TDirectory", url: "https://tdirectory.me/", description: "Telegram directory", tags: ["Free"] },
+        { name: "TGStat", url: "https://tgstat.com/", description: "Telegram stats and analytics", tags: ["Free"] },
+        { name: "Telemetr", url: "https://telemetr.io/en/channels", description: "Telegram analytics", tags: ["Free"] },
+        { name: "Telemetr.me", url: "https://telemetr.me/", description: "Telegram search engine", tags: ["Free"] },
+        { name: "Lyzem", url: "https://lyzem.com/", description: "Telegram search", tags: ["Free"] },
+        { name: "Combot Top Groups", url: "https://combot.org/top/telegram/groups", description: "Top Telegram groups", tags: ["Free"] },
+        { name: "Tlgrm.eu", url: "https://tlgrm.eu/channels", description: "Telegram channel directory", tags: ["Free"] },
+        { name: "Telegram-Group.com", url: "https://www.telegram-group.com/en/", description: "Telegram group directory", tags: ["Free"] },
+        { name: "TeleTeg", url: "https://teleteg.com/", description: "Telegram catalog", tags: ["Free"] },
+        { name: "XTea Telegram Search", url: "https://xtea.io/ts_en.html#gsc.tab=0", description: "Telegram search", tags: ["Free"] },
+        { name: "TGCollector", url: "https://www.tgcollector.com/", description: "Telegram collector", tags: ["Free"] },
+        { name: "TGBots.io", url: "https://tgbots.io/", description: "Telegram directory", tags: ["Free"] },
+        { name: "TGDev.io", url: "https://tgdev.io/tme/", description: "Telegram dev tools", tags: ["Free"] },
+        { name: "Fragment", url: "https://fragment.com/numbers", description: "Anonymous Telegram numbers", tags: ["Free"] },
+        { name: "TGInfo", url: "https://limits.tginfo.me/en", description: "Telegram limits", tags: ["Free"] },
+        { name: "TelegramTrac", url: "https://telegramtrac.streamlit.app/", description: "Telegram Streamlit app", tags: ["Free"] },
+        { name: "Telegram-Finder.io", url: "https://www.telegram-finder.io/", description: "Search Telegram entities", tags: ["Free"] },
+        { name: "Bellingcat Group Joiner", url: "https://bellingcat.github.io/telegram-group-joiner/", description: "Join Telegram groups tool", tags: ["Free"] },
+        { name: "TelemetryApp.io", url: "https://www.telemetryapp.io/", description: "Telegram analytics", tags: ["Free"] },
+        { name: "TG Search Engine", url: "https://chrome.google.com/webstore/detail/tg-search-engine-tg-group/ilpgiemienkecbgdhdbgdjkafodgfojl/related", description: "Telegram search extension", tags: ["Free"] },
+        { name: "Telegram Search Engine", url: "https://chrome.google.com/webstore/detail/telegram-search-engine-tg/ilpgiemienkecbgdhdbgdjkafodgfojl", description: "Telegram extension", tags: ["Free"] },
+        { name: "Telegram Sender", url: "https://chrome.google.com/webstore/detail/telegram-sender-telegram/kchbblidjcniipdkjlbjjakgdlbfnhgh", description: "Telegram sender extension", tags: ["Free"] },
+        { name: "Telegram Media Downloader", url: "https://greasyfork.org/en/scripts/446342-telegram-media-downloader", description: "Download Telegram media", tags: ["Free"] },
+        { name: "Yandex Translate", url: "https://translate.yandex.com/", description: "Useful translation for Telegram", tags: ["Free"] },
+        { name: "Yandex OCR", url: "https://translate.yandex.com/ocr", description: "OCR for Telegram content", tags: ["Free"] }
+        ]
+      },
+      {
+  category: "Breaches & Leaks",
+  items: [
+    { name: "DeHashed", url: "https://dehashed.com/", description: "Search in data breaches", tags: ["Paid"] },
+    { name: "LeakCheck", url: "https://leakcheck.io/", description: "Check emails and breaches", tags: ["Free", "Paid"] },
+    { name: "IntelX Tools", url: "https://intelx.io/tools", description: "Multi-source search and traces", tags: ["Free", "Paid"] },
+    { name: "Doxbin", url: "https://doxbin.net/", description: "Public leaks aggregation", tags: ["Free"] },
+    { name: "JustPaste.it", url: "https://justpaste.it/", description: "Search public pastes", tags: ["Free"] },
+    { name: "Pastebin.pl", url: "https://pastebin.pl/", description: "Public text pastes", tags: ["Free"] },
+    { name: "Tor.link Paste", url: "https://tor.link/paste/new", description: "Paste service on Tor", tags: ["Free"] },
+    { name: "OSINT.rocks", url: "https://osint.rocks/", description: "OSINT resources and links", tags: ["Free"] },
+    { name: "Dark Web Informer", url: "https://darkwebinformer.com/threat-actor-database/", description: "Threat actors database and dark web monitoring", tags: ["Free"] },
+    { name: "Threat Actor Database", url: "https://malpedia.caad.fkie.fraunhofer.de/actors", description: "Listed malicious actors", tags: ["Free"] },
+    { name: "GrayHatWarfare", url: "https://grayhatwarfare.com/", description: "Search exposed files", tags: ["Free", "Paid"] }
+  ]
+},
+{
+  category: "Metadata",
+  items: [
+    { name: "Exif.regex.info", url: "http://exif.regex.info/", description: "Read image EXIF data", tags: ["Free"] },
+    { name: "Jimpl", url: "https://jimpl.com/", description: "Extract image metadata", tags: ["Free"] },
+    { name: "FOCA", url: "https://github.com/ElevenPaths/FOCA", description: "Document metadata analysis", tags: ["Free"] },
+    { name: "Pic2Map", url: "https://www.pic2map.com/", description: "Extract GPS from photos", tags: ["Free"] },
+    { name: "Exif Editor", url: "https://exifeditor.io/", description: "View and edit EXIF", tags: ["Free"] },
+    { name: "MattW YouTube Metadata", url: "https://mattw.io/youtube-metadata/", description: "YouTube metadata", tags: ["Free"] },
+    { name: "Photo Forensics", url: "https://29a.ch/photo-forensics/", description: "Image manipulation detection", tags: ["Free"] }
+  ]
+},
+{
+  category: "Search Engines",
+  items: [
+    { name: "Google", url: "https://www.google.com/", description: "General web search", tags: ["Free"] },
+    { name: "Bing", url: "https://www.bing.com/", description: "Useful alternative for pivots", tags: ["Free"] },
+    { name: "Yandex", url: "https://yandex.com/", description: "Web & image search", tags: ["Free"] },
+    { name: "DuckDuckGo", url: "https://duckduckgo.com/", description: "More private search", tags: ["Free"] },
+    { name: "Yahoo", url: "https://www.yahoo.com/", description: "Alternative web search", tags: ["Free"] },
+    { name: "Mojeek", url: "https://www.mojeek.com/", description: "Independent search engine", tags: ["Free"] },
+    { name: "Kagi", url: "https://kagi.com/", description: "Premium search with advanced filtering", tags: ["Paid"] },
+    { name: "Swisscows", url: "https://swisscows.com/", description: "Privacy-focused search engine", tags: ["Free"] },
+    { name: "Millionshort", url: "https://millionshort.com/", description: "Removes top results to find alternatives", tags: ["Free"] },
+    { name: "Google Hacking DB", url: "https://www.exploit-db.com/google-hacking-database", description: "Google dorks database", tags: ["Free"] },
+    { name: "DorkGenius", url: "https://dorkgenius.com/", description: "Dork generator", tags: ["Free"] },
+    { name: "DorkGPT", url: "https://www.dorkgpt.com/", description: "AI-assisted dorks", tags: ["Free"] },
+    { name: "Google Trends", url: "https://www.google.com/trends", description: "Search trends", tags: ["Free"] },
+    { name: "Google News", url: "https://news.google.com/", description: "News search", tags: ["Free"] },
+    { name: "Scholar Google", url: "https://scholar.google.com/", description: "Academic search", tags: ["Free"] },
+    { name: "Biznar", url: "http://biznar.com/", description: "Business and economic search", tags: ["Free"] },
+    { name: "Boardreader", url: "http://boardreader.com/", description: "Forums and discussions", tags: ["Free"] },
+    { name: "Carrot2", url: "https://search.carrot2.org/", description: "Web result clustering", tags: ["Free"] },
+    { name: "2lingual", url: "http://2lingual.com/", description: "Bilingual Google search", tags: ["Free"] },
+    { name: "IsearchFrom", url: "https://isearchfrom.com/", description: "Simulate searches from different countries", tags: ["Free"] }
+  ]
+},
+{
+  category: "Reverse Image Search",
+  items: [
+    { name: "Google Lens", url: "https://lens.google.com/", description: "Visual search", tags: ["Free"] },
+    { name: "TinEye", url: "https://tineye.com/", description: "Find similar images", tags: ["Free"] },
+    { name: "ImgOps", url: "https://imgops.com/", description: "Image analysis hub", tags: ["Free"] },
+    { name: "FaceCheck", url: "https://facecheck.id/", description: "Web facial search", tags: ["Paid"] },
+    { name: "PimEyes", url: "https://pimeyes.com/", description: "Advanced facial recognition search", tags: ["Paid"] },
+    { name: "Search4Faces", url: "https://search4faces.com/", description: "Facial search on social media", tags: ["Free"] },
+    { name: "ImageRaider", url: "https://www.imageraider.com/", description: "Track reused images", tags: ["Free"] },
+    { name: "Images Google", url: "https://images.google.com/", description: "Classic image search", tags: ["Free"] },
+    { name: "RevEye", url: "https://chromewebstore.google.com/", description: "Reverse image extension", tags: ["Free"] },
+    { name: "Mapillary", url: "https://www.mapillary.com/app/", description: "Street-level imagery", tags: ["Free"] },
+    { name: "Filmot", url: "https://filmot.com/", description: "Search in YouTube subtitles", tags: ["Free"] }
+       ]
+      }
+    ];
+
+    const sectionsEl = document.getElementById('sections');
+    const filtersEl = document.getElementById('filters');
+    const searchInput = document.getElementById('searchInput');
+    const totalCountEl = document.getElementById('totalCount');
+    const visibleCountEl = document.getElementById('visibleCount');
+
+    const BOT_PATTERNS = [/^@/i, /bot/i, /tgbots\.io/i];
+
+    function normalizeToolkit(data) {
+      return data
+        .map(section => {
+          const seen = new Set();
+          const items = section.items
+            .filter(item => !(section.category === 'Telegram OSINT' && BOT_PATTERNS.some(rx => rx.test(item.name) || rx.test(item.url))))
+            .filter(item => {
+              const key = `${item.name}`.trim().toLowerCase() + '|' + `${item.url}`.trim().toLowerCase();
+              if (seen.has(key)) return false;
+              seen.add(key);
+              return true;
+            })
+            .sort((a, b) => a.name.localeCompare(b.name, 'fr', { sensitivity: 'base' }));
+          return { ...section, items };
+        })
+        .filter(section => section.items.length > 0);
+    }
+
+    const toolkit = normalizeToolkit(toolkitRaw);
+    const categories = ['All', ...toolkit.map(section => section.category)];
+    let activeCategory = 'All';
+    let searchTerm = '';
+
+    function tagClass(tag) {
+      if (tag === 'Free') return 'tag Free';
+      if (tag === 'Paid') return 'tag Paid';
+      return 'tag Cli';
+    }
+
+    function flattenCount(data) {
+      return data.reduce((sum, section) => sum + section.items.length, 0);
+    }
+
+    function createFilters() {
+      filtersEl.innerHTML = '';
+      categories.forEach(category => {
+        const btn = document.createElement('button');
+        btn.className = 'tab' + (category === activeCategory ? ' active' : '');
+        btn.textContent = category;
+        btn.addEventListener('click', () => {
+          activeCategory = category;
+          createFilters();
+          render();
+        });
+        filtersEl.appendChild(btn);
+      });
+    }
+
+    function render() {
+      const filtered = toolkit
+        .map(section => {
+          const items = section.items.filter(item => {
+            const text = `${item.name} ${item.description} ${section.category} ${item.tags.join(' ')}`.toLowerCase();
+            const matchesSearch = text.includes(searchTerm.toLowerCase());
+            const matchesCategory = activeCategory === 'All' || section.category === activeCategory;
+            return matchesSearch && matchesCategory;
+          });
+          return { ...section, items };
+        })
+        .filter(section => section.items.length > 0);
+
+      totalCountEl.textContent = `Total : ${flattenCount(toolkit)}`;
+      visibleCountEl.textContent = `Visible : ${flattenCount(filtered)}`;
+
+      sectionsEl.innerHTML = '';
+
+      if (!filtered.length) {
+        sectionsEl.innerHTML = '<div class="empty">No tools found for this search.</div>';
+        return;
+      }
+
+      filtered.forEach(section => {
+        const wrapper = document.createElement('section');
+
+        const title = document.createElement('div');
+        title.className = 'section-title';
+        title.innerHTML = `<h2>${section.category}</h2><span class="count">${section.items.length}</span>`;
+        wrapper.appendChild(title);
+
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+
+        section.items.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'card';
+
+          const tagsHtml = item.tags.map(tag => `<span class="${tagClass(tag)}">${tag}</span>`).join('');
+
+          card.innerHTML = `
+            <div class="card-top">
+              <div class="dot"></div>
+              <div>
+                <h3>${item.name}</h3>
+                <div class="desc">${item.description}</div>
+                <div class="tags">${tagsHtml}</div>
+                <div class="card-actions">
+                  <a class="open-btn" href="${item.url}" target="_blank" rel="noreferrer">Open</a>
+                  <button class="copy-btn" type="button" data-url="${item.url.replace(/"/g, '&quot;')}">Copy link</button>
+                </div>
+              </div>
+            </div>
+          `;
+
+          const copyBtn = card.querySelector('.copy-btn');
+          copyBtn.addEventListener('click', async (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const originalText = copyBtn.textContent;
+            try {
+              await navigator.clipboard.writeText(item.url);
+              copyBtn.textContent = 'Link copied';
+              setTimeout(() => { copyBtn.textContent = originalText; }, 1200);
+            } catch {
+              copyBtn.textContent = 'Copy failed';
+              setTimeout(() => { copyBtn.textContent = originalText; }, 1400);
+            }
+          });
+
+          grid.appendChild(card);
+        });
+
+        wrapper.appendChild(grid);
+        sectionsEl.appendChild(wrapper);
+      });
+    }
+
+    searchInput.addEventListener('input', (e) => {
+      searchTerm = e.target.value;
+      render();
+    });
+
+    createFilters();
+    render();
+  </script>
+</body>
+</html>

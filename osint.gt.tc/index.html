@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="logo.png">
+<title>Intelligence Gathering</title>
+
+<div class="button-container">
+    <div class="top-buttons">
+
+        <button class="btn" onclick="window.open('toolkit.html', '_blank')">Toolkit</button>
+
+        <div class="middle-group">
+            <button class="btn primary" onclick="window.open('osint.html', '_blank')">Osint-X</button>
+            <button class="btn small" onclick="window.open('searcher.html', '_blank')">Searcher</button>
+        </div>
+
+        <button class="btn" onclick="window.open('toolkit-2.html', '_blank')">Toolkit 2</button>
+
+    </div>
+</div>
+
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<button id="soundBtn" class="sound-btn">🔇</button>
+
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: #0d0d0d;
+        font-family: Arial, sans-serif;
+    
+        background: url("back.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+    canvas {
+        display: block;
+    }
+
+    .title {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(40px, 8vw, 66px); 
+    font-weight: 600;
+    text-align: center;
+
+    background: linear-gradient(90deg, #00c6ff, #4facfe, #0072ff);
+    background-size: 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: gradientFlow 2s infinite linear;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+
+    /* Yumuşatma efektleri */
+    text-shadow: 0 0 20px rgba(0, 198, 255, 0.25);
+}
+
+    @keyframes gradientFlow {
+        0% { background-position: 0%; }
+        100% { background-position: 300%; }
+    }
+
+    body::before {
+    content: "";
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.6); 
+    z-index: 0;
+}
+
+canvas {
+    position: relative;
+    z-index: 1;
+}
+
+.title {
+    position: absolute;
+    z-index: 2;
+}
+
+.button-container {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+
+.top-buttons {
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+}
+
+
+.middle-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+
+.btn {
+    padding: 12px 26px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+
+    color: #00eaff;
+    background: rgba(0, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(0, 255, 255, 0.3);
+
+    transition: all 0.3s ease;
+}
+
+
+.btn:hover {
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0,255,255,0.5);
+    transform: translateY(-2px);
+}
+
+
+.primary {
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    border: none;
+}
+
+
+.small {
+    font-size: 12px;
+    padding: 8px 18px;
+    opacity: 0.85;
+}
+
+.sound-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 999;
+
+    width: auto;
+    height: auto;
+
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    font-size: 28px;
+    cursor: pointer;
+
+    color: #00eaff;
+
+    transition: 0.2s ease;
+}
+
+.sound-btn:hover {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 8px rgba(250, 75, 6, 0.6));
+}
+
+
+
+</style>
+</head>
+<body>
+
+<div class="title">Intelligence Gathering</div>
+<canvas id="canvas"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+const particleCount = 120;
+let mouse = { x: null, y: null, radius: 120 };
+
+window.addEventListener("mousemove", function(e) {
+    mouse.x = e.x;
+    mouse.y = e.y;
+});
+
+window.addEventListener("resize", function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    init();
+});
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = (Math.random() - 0.5) * 1;
+        this.speedY = (Math.random() - 0.5) * 1;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+        if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+    }
+
+    draw() {
+        ctx.fillStyle = "#00ffff";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function init() {
+    particles = [];
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+    }
+}
+
+function connect() {
+    for (let a = 0; a < particles.length; a++) {
+        for (let b = a; b < particles.length; b++) {
+
+            let dx = particles[a].x - particles[b].x;
+            let dy = particles[a].y - particles[b].y;
+            let distance = dx * dx + dy * dy;
+
+            let mouseDx = particles[a].x - mouse.x;
+            let mouseDy = particles[a].y - mouse.y;
+            let mouseDistance = mouseDx * mouseDx + mouseDy * mouseDy;
+
+            if (distance < 10000 && mouseDistance < mouse.radius * mouse.radius) {
+                ctx.strokeStyle = "rgba(0,255,255,0.2)";
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(particles[a].x, particles[a].y);
+                ctx.lineTo(particles[b].x, particles[b].y);
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+    });
+
+    connect();
+    requestAnimationFrame(animate);
+}
+
+init();
+animate();
+</script>
+
+<script>
+    const music = document.getElementById("bgMusic");
+    const btn = document.getElementById("soundBtn");
+    
+    let isPlaying = false;
+    
+    btn.addEventListener("click", () => {
+        if (!isPlaying) {
+            music.play();
+            btn.textContent = "🔊";
+        } else {
+            music.pause();
+            btn.textContent = "🔇";
+        }
+        isPlaying = !isPlaying;
+    });
+    </script>
+    
+</body>
+</html>
