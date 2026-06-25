@@ -1,2 +1,5 @@
 # osint.gt.tc
-comprehensive OSINT tool
+comprehensive OSINT tool. 
+
+# Setup
+run index.html 
